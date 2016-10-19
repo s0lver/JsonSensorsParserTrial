@@ -1,18 +1,18 @@
-package tamps.cinvestav.s0lver.parserEntities;
-
-import java.util.Date;
+package tamps.cinvestav.s0lver.sensorEntities;
 
 /***
  * Represents a record of an accelerometer sample
  */
-public class AccelerometerSample extends AbstractParserRecord{
+public class AccelerometerSample{
     private float x, y, z;
+    private long timestamp;
+    private byte type;
 
     public AccelerometerSample(float x, float y, float z, long timestamp) {
-        super(timestamp, Sensors.ACCELEROMETER);
         this.x = x;
         this.y = y;
         this.z = z;
+        this.timestamp = timestamp;
     }
 
     public float getX() {

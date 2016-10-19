@@ -1,4 +1,4 @@
-package tamps.cinvestav.s0lver.parserEntities;
+package tamps.cinvestav.s0lver.sensorEntities;
 
 /**
  * Defines the sensors supported by the platform and helpful to identify the target sensor when scheduling samples.

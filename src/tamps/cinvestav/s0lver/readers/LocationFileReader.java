@@ -1,6 +1,6 @@
 package tamps.cinvestav.s0lver.readers;
 
-import tamps.cinvestav.s0lver.parserEntities.Location;
+import tamps.cinvestav.s0lver.sensorEntities.Location;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

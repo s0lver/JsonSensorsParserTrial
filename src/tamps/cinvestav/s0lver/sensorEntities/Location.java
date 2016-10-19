@@ -1,4 +1,4 @@
-package tamps.cinvestav.s0lver.parserEntities;
+package tamps.cinvestav.s0lver.sensorEntities;
 
 import java.text.DecimalFormat;
 import java.util.StringTokenizer;
