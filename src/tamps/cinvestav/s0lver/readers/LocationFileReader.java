@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -21,7 +22,8 @@ public class LocationFileReader{
     private final int TIMESTAMP = 6;
 
     public static final SimpleDateFormat GLOBAL_SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH);
-    public final static String FAKE_LOCATION_PROVIDER = "TimedOutLocation";
+    public final static String TIMED_OUT_LOCATION_PROVIDER = "TimedOutLocation";
+    private static final String CUSTOM_LOCATION_PROVIDER = "CustomProvider";
 
     private Scanner scanner;
     private boolean endOfFileReached;
@@ -39,22 +41,24 @@ public class LocationFileReader{
     private Location processLine(String line) {
         Location fix;
         String[] slices = line.split(",");
+        Date timestamp;
+        try {
+            timestamp = GLOBAL_SIMPLE_DATE_FORMAT.parse(slices[TIMESTAMP]);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new RuntimeException("I couldn't parse the date, and I hate checked exceptions");
+        }
         if (slices[0].equals("Si")) {
-            try {
-                fix = new Location("CustomProvider");
+                fix = new Location(CUSTOM_LOCATION_PROVIDER);
                 fix.setLatitude(Double.parseDouble(slices[LATITUDE]));
                 fix.setLongitude(Double.parseDouble(slices[LONGITUDE]));
                 fix.setAltitude(Double.parseDouble(slices[ALTITUDE]));
                 fix.setAccuracy(Float.parseFloat(slices[ACCURACY]));
                 fix.setSpeed(Float.parseFloat(slices[SPEED]));
-                fix.setTime(GLOBAL_SIMPLE_DATE_FORMAT.parse(slices[TIMESTAMP]).getTime());
-            } catch (ParseException e) {
-                e.printStackTrace();
-                throw new RuntimeException("I couldn't parse the date, and I hate checked exceptions");
-            }
         }else{
-            fix = new Location(FAKE_LOCATION_PROVIDER);
+            fix = new Location(TIMED_OUT_LOCATION_PROVIDER);
         }
+        fix.setTime(timestamp.getTime());
         return fix;
     }
 

@@ -15,17 +15,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static tamps.cinvestav.s0lver.readers.LocationFileReader.TIMED_OUT_LOCATION_PROVIDER;
+
+/***
+ * Takes a JSON compatible file and deserializes it, in a single run or block by block.
+ * There must be an implementation of a deserializeXBlock for any X sensor type.
+ */
 public class JsonDeserializer {
+    public final static String CUSTOM_PROVIDER = "CustomProvider";
     private final JsonParser jsonParser;
-    private File fileInput;
     private boolean fileDone;
 
     public JsonDeserializer(String filePath) throws FileNotFoundException {
-        this.fileInput = new File(filePath);
+        File fileInput = new File(filePath);
         this.fileDone = false;
         this.jsonParser = Json.createParser(new FileInputStream(fileInput));
     }
 
+    /***
+     * Deserializes the whole specified file in a single step.
+     * @return The list of {@link SensingUnit} existing on file.
+     */
     public List<SensingUnit> deserializeWholeFile() {
         if (fileDone) {
             return null;
@@ -40,9 +50,10 @@ public class JsonDeserializer {
             }
             else if (event == JsonParser.Event.END_ARRAY) {
                 // EOF found
+                jsonParser.close();
                 break;
             } else {
-                SensingUnit sensingUnit = readSensingUnit(jsonParser);
+                SensingUnit sensingUnit = acquireNextSensingUnit();
                 sensingUnitList.add(sensingUnit);
             }
         }
@@ -51,6 +62,10 @@ public class JsonDeserializer {
         return sensingUnitList;
     }
 
+    /***
+     * Reads the next {@link SensingUnit} in specified file
+     * @return The next SensingUnit or null if EOF has been reached.
+     */
     public SensingUnit readSensingUnit() {
         if (fileDone) {
             return null;
@@ -66,16 +81,20 @@ public class JsonDeserializer {
         if (event == JsonParser.Event.END_ARRAY) {
             // EOF found
             fileDone = true;
+            jsonParser.close();
             return null;
         }
 
-        SensingUnit sensingUnit = readSensingUnit(jsonParser);
-        return sensingUnit;
+        return acquireNextSensingUnit();
     }
 
-    private SensingUnit readSensingUnit(JsonParser jsonParser) {
+    /***
+     * Internal method. Given the current cursor (place) of parser, it reads the next sensing unit
+     * @return The next {@link SensingUnit} on file or null if EOF has been reached.
+     */
+    private SensingUnit acquireNextSensingUnit() {
         List<SensorDataBlock> sensorDataBlockList = new ArrayList<>();
-        SensorDataBlock sensorDataBlock = null;
+        SensorDataBlock sensorDataBlock;
 
         // Reading all sensor data blocks
         while (true) {
@@ -104,6 +123,10 @@ public class JsonDeserializer {
         return new SensingUnit(sensorDataBlockList);
     }
 
+    /***
+     * Deserializes (reads) a data block corresponding to a Location in the current position of parser
+     * @return The {@link SensorDataBlock} corresponding to a Location
+     */
     private SensorDataBlock deserializeLocationBlock(JsonParser jsonParser) {
         // Reading the beginning of object
         jsonParser.next();
@@ -114,48 +137,62 @@ public class JsonDeserializer {
         // Reading the beginning of "v"
         jsonParser.next();
 
-        jsonParser.next();
+        Location tmpLocation;
 
-        jsonParser.next();
-        jsonParser.next();
-        double latitude = jsonParser.getBigDecimal().doubleValue();
+        JsonParser.Event next = jsonParser.next();
+        if (next == JsonParser.Event.VALUE_NULL) {
+            tmpLocation = new Location(TIMED_OUT_LOCATION_PROVIDER);
+            tmpLocation.setTime(timestamp);
+        }
+        else{
+            tmpLocation = new Location(CUSTOM_PROVIDER);
 
-        jsonParser.next();
-        jsonParser.next();
-        double longitude = jsonParser.getBigDecimal().doubleValue();
+            jsonParser.next();
+            jsonParser.next();
+            double latitude = jsonParser.getBigDecimal().doubleValue();
 
-        jsonParser.next();
-        jsonParser.next();
-        double altitude = jsonParser.getBigDecimal().doubleValue();
+            jsonParser.next();
+            jsonParser.next();
+            double longitude = jsonParser.getBigDecimal().doubleValue();
 
-        jsonParser.next();
-        jsonParser.next();
-        double accuracy = jsonParser.getBigDecimal().doubleValue();
+            jsonParser.next();
+            jsonParser.next();
+            double altitude = jsonParser.getBigDecimal().doubleValue();
 
-        jsonParser.next();
-        jsonParser.next();
-        double speed = jsonParser.getBigDecimal().doubleValue();
+            jsonParser.next();
+            jsonParser.next();
+            double accuracy = jsonParser.getBigDecimal().doubleValue();
 
-        Location tmpLocation = new Location("FILE");
-        tmpLocation.setLatitude(latitude);
-        tmpLocation.setLongitude(longitude);
-        tmpLocation.setAltitude(altitude);
-        tmpLocation.setAccuracy((float) accuracy);
-        tmpLocation.setSpeed((float) speed);
-        tmpLocation.setTime(timestamp);
+            jsonParser.next();
+            jsonParser.next();
+            double speed = jsonParser.getBigDecimal().doubleValue();
+
+            tmpLocation.setLatitude(latitude);
+            tmpLocation.setLongitude(longitude);
+            tmpLocation.setAltitude(altitude);
+            tmpLocation.setAccuracy((float) accuracy);
+            tmpLocation.setSpeed((float) speed);
+            tmpLocation.setTime(timestamp);
+
+            // Read closing }
+            jsonParser.next();
+        }
 
         HashMap<String, Object> values = new HashMap<>();
         values.put("values", tmpLocation);
 
         SensorDataBlock sensorDataBlock = new SensorDataBlock(Sensors.GPS, timestamp, values);
 
-        // Read closing } }
-        jsonParser.next();
+        // Read closing }
         jsonParser.next();
 
         return sensorDataBlock;
     }
 
+    /***
+     * Deserializes (reads) a data block corresponding to a set of accelerometer records in the current position of parser
+     * @return The {@link SensorDataBlock} corresponding to a list of accelerometer records.
+     */
     private SensorDataBlock deserializeAccelerometerBlock(JsonParser jsonParser) {
         // Reading the beginning of object
         jsonParser.next();
@@ -211,8 +248,7 @@ public class JsonDeserializer {
         HashMap<String, Object> values = new HashMap<>();
         values.put("values", accelerometerSamples);
 
-        SensorDataBlock sensorDataBlock = new SensorDataBlock(Sensors.ACCELEROMETER, timestamp, values);
-        return sensorDataBlock;
+        return new SensorDataBlock(Sensors.ACCELEROMETER, timestamp, values);
     }
 
     private void printEventType(JsonParser.Event next) {
