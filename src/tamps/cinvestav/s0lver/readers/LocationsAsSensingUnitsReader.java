@@ -3,8 +3,8 @@ package tamps.cinvestav.s0lver.readers;
 import tamps.cinvestav.s0lver.parserEntities.SensingUnit;
 import tamps.cinvestav.s0lver.parserEntities.SensorDataBlock;
 import tamps.cinvestav.s0lver.sensorEntities.AccelerometerSample;
-import tamps.cinvestav.s0lver.sensorEntities.Location;
 import tamps.cinvestav.s0lver.sensorEntities.Sensors;
+import tamps.cinvestav.s0lver.sensorEntities.SimpleLocation;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class LocationsAsSensingUnitsReader {
      */
     public List<SensingUnit> readFileAsSensorUnits() {
         LocationFileReader reader = new LocationFileReader(fileInput.getAbsolutePath());
-        Location location = reader.readLine();
+        SimpleLocation location = reader.readLine();
 
         List<SensingUnit> sensingUnitList = new ArrayList<>();
         while (location != null) {
@@ -51,7 +51,7 @@ public class LocationsAsSensingUnitsReader {
      * @param location The location from which data block will be built
      * @return The {@link SensorDataBlock} corresponding to the specified location.
      */
-    private SensorDataBlock buildLocationDataBlock(Location location) {
+    private SensorDataBlock buildLocationDataBlock(SimpleLocation location) {
         HashMap<String, Object> valuesMap = new HashMap<>();
         valuesMap.put("values", location);
         return new SensorDataBlock(Sensors.GPS, location.getTime(), valuesMap);
@@ -74,8 +74,26 @@ public class LocationsAsSensingUnitsReader {
 
     private List<AccelerometerSample> buildAccelerometerSamples() {
         List<AccelerometerSample> samples = new ArrayList<>();
-        samples.add(new AccelerometerSample(10, 9, 8, System.currentTimeMillis()));
-        samples.add(new AccelerometerSample(1, 2, 3, System.currentTimeMillis()));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
+        samples.add(new AccelerometerSample(0, 0, 0, 0));
 
         return samples;
     }

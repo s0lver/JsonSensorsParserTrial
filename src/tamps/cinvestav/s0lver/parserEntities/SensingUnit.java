@@ -1,8 +1,7 @@
 package tamps.cinvestav.s0lver.parserEntities;
 
 import tamps.cinvestav.s0lver.sensorEntities.AccelerometerSample;
-import tamps.cinvestav.s0lver.sensorEntities.Location;
-import tamps.cinvestav.s0lver.sensorEntities.LocationForJson;
+import tamps.cinvestav.s0lver.sensorEntities.SimpleLocation;
 import tamps.cinvestav.s0lver.sensorEntities.Sensors;
 
 import java.util.ArrayList;
@@ -60,8 +59,8 @@ public class SensingUnit {
                     System.out.println(String.format("%s accelerometer samples on block", accelerometerSamples.size()));
                     break;
                 case Sensors.GPS:
-                    Location location = (Location) values.get("values");
-                    System.out.println(String.format("Location data %s", new LocationForJson(location).toString()));
+                    SimpleLocation location = (SimpleLocation) values.get("values");
+                    System.out.println(String.format("Location data %s", location.toString()));
                     break;
                 default:
                     System.out.println("not recognized at this time!");

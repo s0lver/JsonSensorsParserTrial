@@ -1,6 +1,6 @@
 package tamps.cinvestav.s0lver.readers;
 
-import tamps.cinvestav.s0lver.sensorEntities.Location;
+import tamps.cinvestav.s0lver.sensorEntities.SimpleLocation;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -38,8 +38,8 @@ public class LocationFileReader{
         }
     }
 
-    private Location processLine(String line) {
-        Location fix;
+    private SimpleLocation processLine(String line) {
+        SimpleLocation fix;
         String[] slices = line.split(",");
         Date timestamp;
         try {
@@ -49,24 +49,24 @@ public class LocationFileReader{
             throw new RuntimeException("I couldn't parse the date, and I hate checked exceptions");
         }
         if (slices[0].equals("Si")) {
-                fix = new Location(CUSTOM_LOCATION_PROVIDER);
+                fix = new SimpleLocation(CUSTOM_LOCATION_PROVIDER);
                 fix.setLatitude(Double.parseDouble(slices[LATITUDE]));
                 fix.setLongitude(Double.parseDouble(slices[LONGITUDE]));
                 fix.setAltitude(Double.parseDouble(slices[ALTITUDE]));
                 fix.setAccuracy(Float.parseFloat(slices[ACCURACY]));
                 fix.setSpeed(Float.parseFloat(slices[SPEED]));
         }else{
-            fix = new Location(TIMED_OUT_LOCATION_PROVIDER);
+            fix = new SimpleLocation(TIMED_OUT_LOCATION_PROVIDER);
         }
         fix.setTime(timestamp.getTime());
         return fix;
     }
 
-    public Location readLine() {
+    public SimpleLocation readLine() {
         if (endOfFileReached == false) {
             if (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                Location location = processLine(line);
+                SimpleLocation location = processLine(line);
                 return location;
             } else {
                 scanner.close();

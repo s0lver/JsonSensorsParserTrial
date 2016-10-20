@@ -3,8 +3,8 @@ package tamps.cinvestav.s0lver.serializer;
 import tamps.cinvestav.s0lver.parserEntities.SensingUnit;
 import tamps.cinvestav.s0lver.parserEntities.SensorDataBlock;
 import tamps.cinvestav.s0lver.sensorEntities.AccelerometerSample;
-import tamps.cinvestav.s0lver.sensorEntities.Location;
 import tamps.cinvestav.s0lver.sensorEntities.Sensors;
+import tamps.cinvestav.s0lver.sensorEntities.SimpleLocation;
 
 import javax.json.Json;
 import javax.json.stream.JsonGenerator;
@@ -20,6 +20,7 @@ import static tamps.cinvestav.s0lver.ParserConstants.*;
 import static tamps.cinvestav.s0lver.readers.LocationFileReader.TIMED_OUT_LOCATION_PROVIDER;
 
 /***
+ * http://www.journaldev.com/2315/java-json-example
  * Writes a list of {@link SensingUnit} to a JSON compatible file.
  * There must be an implementation of a writeXInJson for writing each value block of any X sensor type.
  * Pay attention to the closing events and the types of values:
@@ -81,7 +82,7 @@ public class JsonSerializer {
                         writeAccelerationsInJson(accelerationValues);
                         break;
                     case Sensors.GPS:
-                        Location locationFix = (Location) values.get("values");
+                        SimpleLocation locationFix = (SimpleLocation) values.get("values");
                         writeLocationInJson(locationFix);
                         break;
                 }
@@ -114,7 +115,7 @@ public class JsonSerializer {
      * Writes the location as a simple JSON object value (i.e., not an array)
      * @param location The location to write
      */
-    private void writeLocationInJson(Location location) {
+    private void writeLocationInJson(SimpleLocation location) {
         if (location.getProvider().equals(TIMED_OUT_LOCATION_PROVIDER)) {
             jsonGenerator.writeNull("v");
         } else {

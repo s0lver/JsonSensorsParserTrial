@@ -3,8 +3,8 @@ package tamps.cinvestav.s0lver.deserializers;
 import tamps.cinvestav.s0lver.parserEntities.SensingUnit;
 import tamps.cinvestav.s0lver.parserEntities.SensorDataBlock;
 import tamps.cinvestav.s0lver.sensorEntities.AccelerometerSample;
-import tamps.cinvestav.s0lver.sensorEntities.Location;
 import tamps.cinvestav.s0lver.sensorEntities.Sensors;
+import tamps.cinvestav.s0lver.sensorEntities.SimpleLocation;
 
 import javax.json.Json;
 import javax.json.stream.JsonParser;
@@ -137,15 +137,15 @@ public class JsonDeserializer {
         // Reading the beginning of "v"
         jsonParser.next();
 
-        Location tmpLocation;
+        SimpleLocation tmpLocation;
 
         JsonParser.Event next = jsonParser.next();
         if (next == JsonParser.Event.VALUE_NULL) {
-            tmpLocation = new Location(TIMED_OUT_LOCATION_PROVIDER);
+            tmpLocation = new SimpleLocation(TIMED_OUT_LOCATION_PROVIDER);
             tmpLocation.setTime(timestamp);
         }
         else{
-            tmpLocation = new Location(CUSTOM_PROVIDER);
+            tmpLocation = new SimpleLocation(CUSTOM_PROVIDER);
 
             jsonParser.next();
             jsonParser.next();

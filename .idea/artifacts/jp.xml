@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="jp">
+    <output-path>$PROJECT_DIR$/out/artifacts/jp</output-path>
+    <root id="archive" name="jp.jar">
+      <element id="module-output" name="JsonSensorsParser" />
+    </root>
+  </artifact>
+</component>
