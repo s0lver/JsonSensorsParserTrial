@@ -1,10 +1,12 @@
-package tamps.cinvestav.s0lver.serializer;
+package tamps.cinvestav.s0lver.jsonparser.serializer;
 
-import tamps.cinvestav.s0lver.parserEntities.SensingUnit;
-import tamps.cinvestav.s0lver.parserEntities.SensorDataBlock;
-import tamps.cinvestav.s0lver.sensorEntities.AccelerometerSample;
-import tamps.cinvestav.s0lver.sensorEntities.Sensors;
-import tamps.cinvestav.s0lver.sensorEntities.SimpleLocation;
+import tamps.cinvestav.s0lver.jsonparser.ParserConstants;
+import tamps.cinvestav.s0lver.jsonparser.parserEntities.SensingUnit;
+import tamps.cinvestav.s0lver.jsonparser.parserEntities.SensorDataBlock;
+import tamps.cinvestav.s0lver.jsonparser.readers.LocationFileReader;
+import tamps.cinvestav.s0lver.jsonparser.sensorEntities.AccelerometerSample;
+import tamps.cinvestav.s0lver.jsonparser.sensorEntities.Sensors;
+import tamps.cinvestav.s0lver.jsonparser.sensorEntities.SimpleLocation;
 
 import javax.json.Json;
 import javax.json.stream.JsonGenerator;
@@ -15,9 +17,6 @@ import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static tamps.cinvestav.s0lver.ParserConstants.*;
-import static tamps.cinvestav.s0lver.readers.LocationFileReader.TIMED_OUT_LOCATION_PROVIDER;
 
 /***
  * http://www.journaldev.com/2315/java-json-example
@@ -116,15 +115,15 @@ public class JsonSerializer {
      * @param location The location to write
      */
     private void writeLocationInJson(SimpleLocation location) {
-        if (location.getProvider().equals(TIMED_OUT_LOCATION_PROVIDER)) {
+        if (location.getProvider().equals(LocationFileReader.TIMED_OUT_LOCATION_PROVIDER)) {
             jsonGenerator.writeNull("v");
         } else {
             jsonGenerator.writeStartObject("v");
-            jsonGenerator.write(LATITUDE, location.getLatitude());
-            jsonGenerator.write(LONGITUDE, location.getLongitude());
-            jsonGenerator.write(ALTITUDE, location.getAltitude());
-            jsonGenerator.write(ACCURACY, location.getAccuracy());
-            jsonGenerator.write(SPEED, location.getSpeed());
+            jsonGenerator.write(ParserConstants.LATITUDE, location.getLatitude());
+            jsonGenerator.write(ParserConstants.LONGITUDE, location.getLongitude());
+            jsonGenerator.write(ParserConstants.ALTITUDE, location.getAltitude());
+            jsonGenerator.write(ParserConstants.ACCURACY, location.getAccuracy());
+            jsonGenerator.write(ParserConstants.SPEED, location.getSpeed());
             jsonGenerator.writeEnd();
         }
     }

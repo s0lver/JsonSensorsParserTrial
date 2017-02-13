@@ -1,10 +1,10 @@
-package tamps.cinvestav.s0lver.deserializers;
+package tamps.cinvestav.s0lver.jsonparser.deserializers;
 
-import tamps.cinvestav.s0lver.parserEntities.SensingUnit;
-import tamps.cinvestav.s0lver.parserEntities.SensorDataBlock;
-import tamps.cinvestav.s0lver.sensorEntities.AccelerometerSample;
-import tamps.cinvestav.s0lver.sensorEntities.Sensors;
-import tamps.cinvestav.s0lver.sensorEntities.SimpleLocation;
+import tamps.cinvestav.s0lver.jsonparser.parserEntities.SensingUnit;
+import tamps.cinvestav.s0lver.jsonparser.parserEntities.SensorDataBlock;
+import tamps.cinvestav.s0lver.jsonparser.sensorEntities.Sensors;
+import tamps.cinvestav.s0lver.jsonparser.sensorEntities.SimpleLocation;
+import tamps.cinvestav.s0lver.jsonparser.sensorEntities.AccelerometerSample;
 
 import javax.json.Json;
 import javax.json.stream.JsonParser;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static tamps.cinvestav.s0lver.readers.LocationFileReader.TIMED_OUT_LOCATION_PROVIDER;
+import static tamps.cinvestav.s0lver.jsonparser.readers.LocationFileReader.TIMED_OUT_LOCATION_PROVIDER;
 
 /***
  * Takes a JSON compatible file and deserializes it, in a single run or block by block.

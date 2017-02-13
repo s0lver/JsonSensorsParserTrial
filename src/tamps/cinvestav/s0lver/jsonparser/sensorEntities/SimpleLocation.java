@@ -1,4 +1,4 @@
-package tamps.cinvestav.s0lver.sensorEntities;
+package tamps.cinvestav.s0lver.jsonparser.sensorEntities;
 
 public class SimpleLocation {
     private String provider;

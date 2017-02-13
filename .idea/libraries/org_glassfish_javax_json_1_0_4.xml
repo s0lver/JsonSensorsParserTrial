@@ -3,8 +3,10 @@
     <properties maven-id="org.glassfish:javax.json:1.0.4" />
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/javax.json-1.0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.json-1.0.4.jar!/" />
     </CLASSES>
     <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/javax.json-1.0.4-javadoc.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/javax.json-1.0.4-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES />

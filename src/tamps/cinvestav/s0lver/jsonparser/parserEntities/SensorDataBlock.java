@@ -1,4 +1,4 @@
-package tamps.cinvestav.s0lver.parserEntities;
+package tamps.cinvestav.s0lver.jsonparser.parserEntities;
 
 import java.util.HashMap;
 

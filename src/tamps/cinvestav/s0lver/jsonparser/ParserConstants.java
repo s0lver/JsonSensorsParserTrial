@@ -1,4 +1,4 @@
-package tamps.cinvestav.s0lver;
+package tamps.cinvestav.s0lver.jsonparser;
 
 public class ParserConstants {
     public static final String LATITUDE = "latitude";

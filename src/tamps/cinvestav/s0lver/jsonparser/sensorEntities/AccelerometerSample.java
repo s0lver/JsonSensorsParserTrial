@@ -1,4 +1,4 @@
-package tamps.cinvestav.s0lver.sensorEntities;
+package tamps.cinvestav.s0lver.jsonparser.sensorEntities;
 
 /***
  * Represents a record of an accelerometer sample

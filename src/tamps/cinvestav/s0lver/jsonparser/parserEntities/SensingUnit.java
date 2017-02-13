@@ -1,8 +1,8 @@
-package tamps.cinvestav.s0lver.parserEntities;
+package tamps.cinvestav.s0lver.jsonparser.parserEntities;
 
-import tamps.cinvestav.s0lver.sensorEntities.AccelerometerSample;
-import tamps.cinvestav.s0lver.sensorEntities.SimpleLocation;
-import tamps.cinvestav.s0lver.sensorEntities.Sensors;
+import tamps.cinvestav.s0lver.jsonparser.sensorEntities.AccelerometerSample;
+import tamps.cinvestav.s0lver.jsonparser.sensorEntities.SimpleLocation;
+import tamps.cinvestav.s0lver.jsonparser.sensorEntities.Sensors;
 
 import java.util.ArrayList;
 import java.util.HashMap;

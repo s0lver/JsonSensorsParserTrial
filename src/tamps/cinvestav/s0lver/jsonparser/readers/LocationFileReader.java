@@ -1,6 +1,6 @@
-package tamps.cinvestav.s0lver.readers;
+package tamps.cinvestav.s0lver.jsonparser.readers;
 
-import tamps.cinvestav.s0lver.sensorEntities.SimpleLocation;
+import tamps.cinvestav.s0lver.jsonparser.sensorEntities.SimpleLocation;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

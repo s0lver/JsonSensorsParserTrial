@@ -1,9 +1,9 @@
-package tamps.cinvestav.s0lver;
+package tamps.cinvestav.s0lver.jsonparser;
 
-import tamps.cinvestav.s0lver.deserializers.JsonDeserializer;
-import tamps.cinvestav.s0lver.parserEntities.SensingUnit;
-import tamps.cinvestav.s0lver.readers.LocationsAsSensingUnitsReader;
-import tamps.cinvestav.s0lver.serializer.JsonSerializer;
+import tamps.cinvestav.s0lver.jsonparser.deserializers.JsonDeserializer;
+import tamps.cinvestav.s0lver.jsonparser.parserEntities.SensingUnit;
+import tamps.cinvestav.s0lver.jsonparser.readers.LocationsAsSensingUnitsReader;
+import tamps.cinvestav.s0lver.jsonparser.serializer.JsonSerializer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,16 +29,29 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        String fullCsvRawInputPath = DESKTOP_PATH + "tmp" + File.separator + CSV_RAW_INPUT_FILE;
+//        String fullCsvRawInputPath = DESKTOP_PATH + "tmp" + File.separator + CSV_RAW_INPUT_FILE;
+//
+//        String fullNewMixedOutputPath = DESKTOP_PATH + "tmp" + File.separator + OUTPUT_NEW_MIXED_SENSORS_FILE;
+//        Main app = new Main(fullCsvRawInputPath, fullNewMixedOutputPath);
+//
+//        app.serializeFile();
+//        app.deserializeWholeFile();
+//
+//        app = new Main(fullCsvRawInputPath, fullNewMixedOutputPath);
+//        app.deserializeByUnit();
 
-        String fullNewMixedOutputPath = DESKTOP_PATH + "tmp" + File.separator + OUTPUT_NEW_MIXED_SENSORS_FILE;
-        Main app = new Main(fullCsvRawInputPath, fullNewMixedOutputPath);
+        // 1. Reading the raw file.
+        String rawCsvInputPath = "/home/rafael/Documents/experiments/three/ground-truth-fixes.csv";
+        String jsonOutputPath = "/home/rafael/Documents/experiments/three/ground-truth-fixes.json";
+        generateJsonFileFromSingleLocationFile(rawCsvInputPath, jsonOutputPath);
+    }
 
-        app.serializeFile();
-        app.deserializeWholeFile();
+    private static void generateJsonFileFromSingleLocationFile(String rawCsvInputPath, String jsonOutputPath) throws FileNotFoundException {
+        LocationsAsSensingUnitsReader reader = new LocationsAsSensingUnitsReader(rawCsvInputPath);
+        List<SensingUnit> sensingUnits = reader.readFileAsSensorUnits();
 
-        app = new Main(fullCsvRawInputPath, fullNewMixedOutputPath);
-        app.deserializeByUnit();
+        JsonSerializer serializer = new JsonSerializer(jsonOutputPath, true);
+        serializer.serialize(sensingUnits);
     }
 
     private void serializeFile() throws FileNotFoundException {

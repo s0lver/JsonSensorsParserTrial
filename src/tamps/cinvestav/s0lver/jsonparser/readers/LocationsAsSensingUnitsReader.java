@@ -1,10 +1,10 @@
-package tamps.cinvestav.s0lver.readers;
+package tamps.cinvestav.s0lver.jsonparser.readers;
 
-import tamps.cinvestav.s0lver.parserEntities.SensingUnit;
-import tamps.cinvestav.s0lver.parserEntities.SensorDataBlock;
-import tamps.cinvestav.s0lver.sensorEntities.AccelerometerSample;
-import tamps.cinvestav.s0lver.sensorEntities.Sensors;
-import tamps.cinvestav.s0lver.sensorEntities.SimpleLocation;
+import tamps.cinvestav.s0lver.jsonparser.parserEntities.SensingUnit;
+import tamps.cinvestav.s0lver.jsonparser.parserEntities.SensorDataBlock;
+import tamps.cinvestav.s0lver.jsonparser.sensorEntities.Sensors;
+import tamps.cinvestav.s0lver.jsonparser.sensorEntities.SimpleLocation;
+import tamps.cinvestav.s0lver.jsonparser.sensorEntities.AccelerometerSample;
 
 import java.io.File;
 import java.util.ArrayList;
